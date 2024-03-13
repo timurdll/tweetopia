@@ -6,11 +6,13 @@ const Home = () => {
       <h1 className="head_text text-center">
         Discover & Share
         <br className="max-md:hidden" />
-        <span className="orange_gradient text-center"> AI-Powered Prompts</span>
+        <span className="blue_gradient text-center">
+          Thoughts about everything
+        </span>
       </h1>
       <p className="desc text-center">
-        Promptopia is an open-source AI prompting tool for modern world to
-        discover, create and share creative prompts
+        Tweetopia is an open-source twiiter clone to discover, create and share
+        creative thoughts
       </p>
 
       <Feed />

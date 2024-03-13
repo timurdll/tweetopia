@@ -20,20 +20,13 @@ const Navbar = () => {
   return (
     <nav className="flex-between w-full mb-16 pt-3">
       <Link href="/" className="flex gap-2 flex-center">
-        <Image
-          src="/assets/images/logo.svg"
-          alt="Promptopia logo"
-          width={30}
-          height={30}
-          className="object-contain"
-        />
-        <p className="logo_text">Promptopia</p>
+        <p className="logo_text">Tweetopia</p>
       </Link>
       <div className="sm:flex hidden">
         {session?.user ? (
           <div className="flex gap-3 md:gap-5">
             <Link href="/create-prompt" className="black_btn">
-              Create prompt
+              Create tweet
             </Link>
             <button type="button" onClick={signOut} className="outline_btn">
               Sign Out
@@ -89,7 +82,7 @@ const Navbar = () => {
                   className="dropdown_link"
                   onClick={() => setToggleDropdown(false)}
                 >
-                  Create Prompt
+                  Create Tweet
                 </Link>
                 <button
                   type="button"
