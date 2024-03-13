@@ -4,8 +4,10 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const tweetopiaApi = createApi({
   reducerPath: "tweetopiaApi",
-  tagTypes: ["Tweets", "Favorite"],
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/api/" }),
+  tagTypes: ["Tweets"],
+  baseQuery: fetchBaseQuery({
+    baseUrl: "https://tweetopia-omega-rouge.vercel.app/api/",
+  }),
   endpoints: (build) => ({
     // GET TWEETS
 
