@@ -115,11 +115,6 @@ const Feed = () => {
       />
       <div className="absolute bottom-0">{currentData ? "" : "loading..."}</div>
       <div ref={lastElement} className="h-5" />
-
-      {/* <div className="w-full flex justify-between pb-4">
-        <button onClick={() => handlePageChange(page - 1)}>Previous</button>
-        <button onClick={() => handlePageChange(page + 1)}>Next</button>
-      </div> */}
     </section>
   );
 };

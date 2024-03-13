@@ -18,10 +18,9 @@ const TweetCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
   const [handleAddFavorite, {}] = useAddFavoriteMutation();
   const [handleUpdateTweet, {}] = useUpdateTweetMutation();
   const [handleDeleteFavorite, {}] = useDeleteFavoriteMutation();
-  const [liked, setLiked] = useState(false); // Initialize liked state as false
+  const [liked, setLiked] = useState(false);
 
   useEffect(() => {
-    // Check if session data is available and post is liked by the user
     if (session?.user && session.user.likedTweets.includes(post._id)) {
       setLiked(true);
     } else {

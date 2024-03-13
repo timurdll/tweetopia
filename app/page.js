@@ -11,7 +11,7 @@ const Home = () => {
         </span>
       </h1>
       <p className="desc text-center">
-        Tweetopia is an open-source twiiter clone to discover, create and share
+        Tweetopia is an open-source twitter clone to discover, create and share
         creative thoughts
       </p>
 

@@ -1,9 +1,7 @@
 import Navbar from "@components/Navbar";
 import "@styles/globals.css";
 import AuthProvider from "@components/AuthProvider";
-import { Provider as ReduxProvider } from "react-redux";
-import store from "@redux/store";
-import StoreProvider from "./storeProvider";
+import StoreProvider from "@components/storeProvider";
 
 export const metadata = {
   title: "Tweetopia",
