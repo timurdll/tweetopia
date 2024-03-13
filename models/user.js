@@ -17,6 +17,9 @@ const UserSchema = new Schema({
   image: {
     type: String,
   },
+  likedTweets: {
+    type: [String],
+  },
 });
 
 const User = models.User || model("User", UserSchema);

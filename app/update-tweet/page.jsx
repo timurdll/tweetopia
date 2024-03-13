@@ -3,48 +3,48 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Form from "@components/Form";
+import { useGetTweetQuery, useUpdateTweetMutation } from "@redux/tweetopiaApi";
 
-const UpdatePrompt = () => {
+const updateTweet = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const promptId = searchParams.get("id");
+  const tweetId = searchParams.get("id");
   const [submitting, setSubmitting] = useState(false);
   const [post, setPost] = useState({
-    prompt: "",
+    tweet: "",
     tag: "",
+    likes: 0,
   });
 
-  console.log(promptId);
-  useEffect(() => {
-    const getPromptDetails = async () => {
-      const response = await fetch(`/api/prompt/${promptId}`);
-      const data = await response.json();
-      setPost({
-        prompt: data.prompt,
-        tag: data.tag,
-      });
-    };
-    if (promptId) getPromptDetails();
-  }, [promptId]);
+  const { data = [] } = useGetTweetQuery(tweetId);
+  const [handleUpdateTweet, {}] = useUpdateTweetMutation();
 
-  const updatePrompt = async (e) => {
+  useEffect(() => {
+    setPost({
+      tweet: data.tweet,
+      tag: data.tag,
+      likes: data.likes,
+    });
+  }, [data]);
+
+  const updateTweet = async (e) => {
     e.preventDefault();
 
     setSubmitting(true);
 
-    if (!promptId) return alert("Prompt ID not found");
+    if (!tweetId) return alert("tweet ID not found");
 
     try {
-      const response = await fetch(`/api/prompt/${promptId}`, {
-        method: "PATCH",
+      handleUpdateTweet({
+        tweetId,
         body: JSON.stringify({
-          prompt: post.prompt,
+          tweet: post.tweet,
           tag: post.tag,
+          likes: data.likes,
         }),
       });
-      if (response.ok) {
-        router.push("/");
-      }
+
+      router.push("/");
     } catch (error) {
       console.log(error);
     } finally {
@@ -59,10 +59,10 @@ const UpdatePrompt = () => {
         post={post}
         setPost={setPost}
         submitting={submitting}
-        handleSubmit={updatePrompt}
+        handleSubmit={updateTweet}
       />
     </>
   );
 };
 
-export default UpdatePrompt;
+export default updateTweet;

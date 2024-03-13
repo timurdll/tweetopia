@@ -1,4 +1,4 @@
-import PromptCard from "./PromptCard";
+import TweetCard from "./TweetCard";
 const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
   return (
     <section className="w-full">
@@ -8,7 +8,7 @@ const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
       <p className="desc text-left">{desc}</p>
       <div className="mt-16 prompt_layout">
         {data.map((post) => (
-          <PromptCard
+          <TweetCard
             key={post._id}
             post={post}
             handleEdit={() => handleEdit && handleEdit(post)}

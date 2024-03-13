@@ -3,24 +3,27 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Profile from "@components/Profile";
+import {
+  useDeleteTweetMutation,
+  useGetProfileQuery,
+} from "@redux/tweetopiaApi";
 
 const MyProfile = () => {
   const { data: session } = useSession();
   const [posts, setPosts] = useState([]);
   const router = useRouter();
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await fetch(`/api/users/${session?.user.id}/posts`);
-      const data = await response.json();
+  const userId = session?.user?.id;
+  const { data = [] } = useGetProfileQuery(userId);
+  const [deleteTweet] = useDeleteTweetMutation();
 
+  useEffect(() => {
+    if (JSON.stringify(data) !== JSON.stringify(posts)) {
       setPosts(data);
-    };
-    if (session?.user.id) {
-      fetchPosts();
     }
-  }, []);
+  }, [data, posts]);
+
   const handleEdit = (post) => {
-    router.push(`/update-prompt?id=${post._id}`);
+    router.push(`/update-tweet?id=${post._id}`);
   };
 
   const handleDelete = async (post) => {
@@ -28,16 +31,13 @@ const MyProfile = () => {
 
     if (hasConfirmed) {
       try {
-        await fetch(`/api/prompt/${post._id.toString()}`, {
-          method: "DELETE",
-        });
-
-        const filteredPosts = posts.filter((p) => p._id !== post._id);
-
-        setPosts(filteredPosts);
-      } catch (error) {}
+        await deleteTweet(post._id.toString()).unwrap();
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
+
   return (
     <Profile
       name="My"

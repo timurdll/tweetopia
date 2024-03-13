@@ -1,24 +1,21 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import PromptCard from "./PromptCard";
+import TweetCard from "./TweetCard";
+import { useGetTweetsQuery } from "@redux/tweetopiaApi";
 
-const PromptCardList = ({ data, handleTagClick, filter }) => {
-  if (data.length === 0) {
-    return <p className="mt-16">Loading...</p>;
-  }
+const TweetCardList = ({ data, handleTagClick, filter }) => {
+  // if (data.length === 0) {
+  //   return <p className="mt-16">Loading...</p>;
+  // }
 
-  if (filter.length === 0) {
-    return <p className="mt-16">No results found.</p>;
-  }
+  // if (filter.length === 0) {
+  //   return <p className="mt-16">No results found.</p>;
+  // }
 
   return (
     <div className="mt-16 prompt_layout">
       {data.map((post) => (
-        <PromptCard
-          key={post._id}
-          post={post}
-          handleTagClick={handleTagClick}
-        />
+        <TweetCard key={post._id} post={post} handleTagClick={handleTagClick} />
       ))}
     </div>
   );
@@ -28,19 +25,49 @@ const Feed = () => {
   const [searchText, setSearchText] = useState("");
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
+  const [page, setPage] = useState(1); // Default page to 1
+  const lastElement = useRef();
+  const observer = useRef();
+
+  const {
+    data = [],
+    isLoading,
+    isFetching,
+    currentData,
+  } = useGetTweetsQuery({ limit: 6, page });
+
+  if (isLoading) console.log("Loading...");
+
   const inputRef = useRef(null);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await fetch("/api/prompt");
-      const data = await response.json();
-      setFilteredPosts(data);
-      setPosts(data);
+    const callback = function (entries) {
+      if (entries[0].isIntersecting && !isFetching && data.length === 6) {
+        setPage((prevPage) => prevPage + 1);
+      }
     };
-    fetchPosts();
-  }, []);
+    observer.current = new IntersectionObserver(callback, { threshold: 1 });
+    observer.current.observe(lastElement.current);
 
-  console.log(posts);
+    return () => {
+      if (observer.current) {
+        observer.current.disconnect();
+      }
+    };
+  }, [isFetching, data]);
+
+  useEffect(() => {
+    if (JSON.stringify(data) !== JSON.stringify(posts)) {
+      setPosts((prevPosts) => [...prevPosts, ...data]);
+      setFilteredPosts((prevPosts) => [...prevPosts, ...data]);
+      console.log("Call");
+      console.log(page);
+    }
+  }, [page]);
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
 
   const handleSearchChange = (e) => {
     const text = e.target.value;
@@ -51,7 +78,7 @@ const Feed = () => {
         return (
           post.tag.includes(text) ||
           post.creator.username.includes(text) ||
-          post.prompt.includes(text)
+          post.tweet.includes(text)
         );
       }
       return false;
@@ -81,11 +108,18 @@ const Feed = () => {
           ref={inputRef}
         />
       </form>
-      <PromptCardList
+      <TweetCardList
         data={filteredPosts.length > 0 ? filteredPosts : posts}
         filter={filteredPosts}
         handleTagClick={handleTagClick}
       />
+      <div className="absolute bottom-0">{currentData ? "" : "loading..."}</div>
+      <div ref={lastElement} className="h-5" />
+
+      {/* <div className="w-full flex justify-between pb-4">
+        <button onClick={() => handlePageChange(page - 1)}>Previous</button>
+        <button onClick={() => handlePageChange(page + 1)}>Next</button>
+      </div> */}
     </section>
   );
 };

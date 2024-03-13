@@ -18,8 +18,8 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
           </span>
         </label>
         <textarea
-          value={post.prompt}
-          onChange={(e) => setPost({ ...post, prompt: e.target.value })}
+          value={post.tweet}
+          onChange={(e) => setPost({ ...post, tweet: e.target.value })}
           placeholder="Write you're thoughts here"
           required
           className="form_textarea"
@@ -27,7 +27,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
         <label>
           <span className="font-satoshi font-semibold text-base text-gray-700">
             Tag {` `}
-            <span className="font-normal">(#product, #webdev, #idead)</span>
+            <span className="font-normal">(#product, #webdev, #idea)</span>
           </span>
         </label>
         <input

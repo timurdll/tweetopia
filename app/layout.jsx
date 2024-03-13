@@ -1,25 +1,30 @@
 import Navbar from "@components/Navbar";
-import Provider from "@components/Provider";
 import "@styles/globals.css";
+import AuthProvider from "@components/AuthProvider";
+import { Provider as ReduxProvider } from "react-redux";
+import store from "@redux/store";
+import StoreProvider from "./storeProvider";
 
 export const metadata = {
-  title: "Promptopia",
-  description: "Discover & Share AI Prompts",
+  title: "Tweetopia",
+  description: "Discover & Share Thoughts",
 };
 
 const RootLayout = ({ children }) => {
   return (
     <html>
       <body>
-        <Provider>
-          <div className="main">
-            <div className="gradient" />
-          </div>
-          <main className="app">
-            <Navbar />
-            {children}
-          </main>
-        </Provider>
+        <AuthProvider>
+          <StoreProvider>
+            <div className="main">
+              <div className="gradient" />
+            </div>
+            <main className="app">
+              <Navbar />
+              {children}
+            </main>
+          </StoreProvider>
+        </AuthProvider>
       </body>
     </html>
   );

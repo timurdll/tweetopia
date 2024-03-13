@@ -25,9 +25,12 @@ const Navbar = () => {
       <div className="sm:flex hidden">
         {session?.user ? (
           <div className="flex gap-3 md:gap-5">
-            <Link href="/create-prompt" className="black_btn">
+            <Link href="/create-tweet" className="black_btn">
               Create tweet
             </Link>
+            {/* <Link href="/favorite" className="outline_btn">
+              Favorite
+            </Link> */}
             <button type="button" onClick={signOut} className="outline_btn">
               Sign Out
             </button>
@@ -78,7 +81,14 @@ const Navbar = () => {
                   My Profile
                 </Link>
                 <Link
-                  href="/create-prompt"
+                  href="/favorite"
+                  className="dropdown_link"
+                  onClick={() => setToggleDropdown(false)}
+                >
+                  Favorite
+                </Link>
+                <Link
+                  href="/create-tweet"
                   className="dropdown_link"
                   onClick={() => setToggleDropdown(false)}
                 >

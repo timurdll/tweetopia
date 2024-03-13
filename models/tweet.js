@@ -1,11 +1,11 @@
 import { Schema, model, models } from "mongoose";
 
-const promptSchema = new Schema({
+const tweetSchema = new Schema({
   creator: {
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  prompt: {
+  tweet: {
     type: String,
     required: [true, "Prompt is required"],
   },
@@ -13,8 +13,11 @@ const promptSchema = new Schema({
     type: String,
     required: [true, "Tag is required"],
   },
+  likes: {
+    type: Number,
+  },
 });
 
-const Prompt = models.Prompt || model("Prompt", promptSchema);
+const Tweet = models.Prompt || model("Prompt", tweetSchema);
 
-export default Prompt;
+export default Tweet;
