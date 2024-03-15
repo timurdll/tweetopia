@@ -43,30 +43,6 @@ const Feed = () => {
   const [filteredPosts, setFilteredPosts] = useState([]);
   const inputRef = useRef(null);
   const { data = [], isLoading } = useGetTweetsQuery();
-  // const lastElement = useRef();
-  // const observer = useRef();
-  // const [page, setPage] = useState(1);
-  // const {
-  //   data = [],
-  //   isFetching,
-  //   currentData,
-  // } = useGetTweetsQuery({ limit: 3, page });
-
-  // useEffect(() => {
-  //   const callback = function (entries) {
-  //     if (entries[0].isIntersecting && !isFetching && data.length === 3) {
-  //       setPage((prevPage) => prevPage + 1);
-  //     }
-  //   };
-  //   observer.current = new IntersectionObserver(callback, { threshold: 1 });
-  //   observer.current.observe(lastElement.current);
-
-  //   return () => {
-  //     if (observer.current) {
-  //       observer.current.disconnect();
-  //     }
-  //   };
-  // }, [data]);
 
   useEffect(() => {
     if (JSON.stringify(data) !== JSON.stringify(posts)) {
@@ -116,7 +92,7 @@ const Feed = () => {
         />
       </form>
       <TweetCardList
-        data={filteredPosts.length > 0 ? filteredPosts : posts} // Pass reversedPosts here
+        data={filteredPosts.length > 0 ? filteredPosts : posts}
         filter={filteredPosts}
         handleTagClick={handleTagClick}
       />
@@ -134,7 +110,6 @@ const Feed = () => {
           ""
         )}
       </div>
-      {/* <div ref={lastElement} className="h-5" /> */}
     </section>
   );
 };

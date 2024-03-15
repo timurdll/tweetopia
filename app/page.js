@@ -28,9 +28,6 @@ const Home = () => {
   const upperVariants = {
     visible: {
       opacity: 1,
-      // transition: {
-      //   delay: 0.2,
-      // },
     },
     hidden: {
       opacity: 0,
