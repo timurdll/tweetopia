@@ -6,7 +6,7 @@ export const tweetopiaApi = createApi({
   reducerPath: "tweetopiaApi",
   tagTypes: ["Tweets"],
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://tweetopia-omega-rouge.vercel.app/api",
+    baseUrl: "https://tweetopia-eight.vercel.app/api",
   }),
   endpoints: (build) => ({
     // GET TWEETS
@@ -21,6 +21,17 @@ export const tweetopiaApi = createApi({
             ]
           : [{ type: "Tweets", id: "LIST" }],
     }),
+
+    // getTweets: build.query({
+    //   query: ({ limit = 3, page = 1 }) => `tweet?limit=${limit}&page=${page}`,
+    //   providesTags: (result) =>
+    //     result
+    //       ? [
+    //           ...result.map(({ id }) => ({ type: "Tweets", id })),
+    //           { type: "Tweets", id: "LIST" },
+    //         ]
+    //       : [{ type: "Tweets", id: "LIST" }],
+    // }),
 
     // GET TWEET BY ID
 
