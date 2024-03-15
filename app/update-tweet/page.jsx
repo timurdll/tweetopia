@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Form from "@components/Form";
 import { useGetTweetQuery, useUpdateTweetMutation } from "@redux/tweetopiaApi";
 
-const updateTweet = () => {
+const UpdateTweet = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const tweetId = searchParams.get("id");
@@ -13,9 +13,7 @@ const updateTweet = () => {
   const [post, setPost] = useState({
     tweet: "",
     tag: "",
-    likes: 0,
   });
-
   const { data = [] } = useGetTweetQuery(tweetId);
   const [handleUpdateTweet, {}] = useUpdateTweetMutation();
 
@@ -25,14 +23,14 @@ const updateTweet = () => {
       tag: data.tag,
       likes: data.likes,
     });
-  }, [data]);
+  }, []);
 
   const updateTweet = async (e) => {
     e.preventDefault();
 
     setSubmitting(true);
 
-    if (!tweetId) return alert("tweet ID not found");
+    if (!tweetId) return alert("Tweet ID not found");
 
     try {
       handleUpdateTweet({
@@ -65,4 +63,4 @@ const updateTweet = () => {
   );
 };
 
-export default updateTweet;
+export default UpdateTweet;

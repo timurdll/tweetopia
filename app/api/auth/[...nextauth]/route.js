@@ -13,20 +13,12 @@ const handler = NextAuth({
   ],
   callbacks: {
     async session({ session }) {
-      try {
-        await connectToDB();
-        const sessionUser = await User.findOne({ email: session.user.email });
+      const sessionUser = await User.findOne({ email: session.user.email });
+      session.user.id = sessionUser._id.toString();
 
-        session.user.id = sessionUser._id.toString();
-        session.user.likedTweets = sessionUser.likedTweets;
-
-        return session;
-      } catch (error) {
-        console.error("Error fetching user session:", error.message);
-        throw error;
-      }
+      return session;
     },
-    async signIn({ profile }) {
+    async signIn({ account, profile, user, credentials }) {
       try {
         await connectToDB();
 
@@ -37,14 +29,13 @@ const handler = NextAuth({
             email: profile.email,
             username: profile.name.replace(" ", "").toLowerCase(),
             image: profile.picture,
-            likedTweets: [],
           });
         }
 
         return true;
       } catch (error) {
-        console.error("Error checking if user exists:", error.message);
-        throw error;
+        console.log("Error checking if user exists: ", error.message);
+        return false;
       }
     },
   },

@@ -1,21 +1,37 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import TweetCard from "./TweetCard";
+import { motion } from "framer-motion";
 import { useGetTweetsQuery } from "@redux/tweetopiaApi";
 
 const TweetCardList = ({ data, handleTagClick, filter }) => {
-  // if (data.length === 0) {
-  //   return <p className="mt-16">Loading...</p>;
-  // }
-
-  // if (filter.length === 0) {
-  //   return <p className="mt-16">No results found.</p>;
-  // }
+  const cardVariants = {
+    visible: (i) => ({
+      y: 0,
+      opacity: 1,
+      transition: {
+        delay: i * 0.1,
+      },
+    }),
+    hidden: {
+      y: 20,
+      opacity: 0,
+    },
+  };
 
   return (
-    <div className="mt-16 prompt_layout">
-      {data.map((post) => (
-        <TweetCard key={post._id} post={post} handleTagClick={handleTagClick} />
+    <div className="mt-16 tweet_layout">
+      {data.map((post, i) => (
+        <motion.div
+          variants={cardVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          custom={i}
+          key={post._id}
+        >
+          <TweetCard post={post} handleTagClick={handleTagClick} />
+        </motion.div>
       ))}
     </div>
   );
@@ -25,49 +41,40 @@ const Feed = () => {
   const [searchText, setSearchText] = useState("");
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
-  const [page, setPage] = useState(1); // Default page to 1
-  const lastElement = useRef();
-  const observer = useRef();
-
-  const {
-    data = [],
-    isLoading,
-    isFetching,
-    currentData,
-  } = useGetTweetsQuery({ limit: 6, page });
-
-  if (isLoading) console.log("Loading...");
-
   const inputRef = useRef(null);
+  const { data = [], isLoading } = useGetTweetsQuery();
+  // const lastElement = useRef();
+  // const observer = useRef();
+  // const [page, setPage] = useState(1);
+  // const {
+  //   data = [],
+  //   isFetching,
+  //   currentData,
+  // } = useGetTweetsQuery({ limit: 3, page });
 
-  useEffect(() => {
-    const callback = function (entries) {
-      if (entries[0].isIntersecting && !isFetching && data.length === 6) {
-        setPage((prevPage) => prevPage + 1);
-      }
-    };
-    observer.current = new IntersectionObserver(callback, { threshold: 1 });
-    observer.current.observe(lastElement.current);
+  // useEffect(() => {
+  //   const callback = function (entries) {
+  //     if (entries[0].isIntersecting && !isFetching && data.length === 3) {
+  //       setPage((prevPage) => prevPage + 1);
+  //     }
+  //   };
+  //   observer.current = new IntersectionObserver(callback, { threshold: 1 });
+  //   observer.current.observe(lastElement.current);
 
-    return () => {
-      if (observer.current) {
-        observer.current.disconnect();
-      }
-    };
-  }, [isFetching, data]);
+  //   return () => {
+  //     if (observer.current) {
+  //       observer.current.disconnect();
+  //     }
+  //   };
+  // }, [data]);
 
   useEffect(() => {
     if (JSON.stringify(data) !== JSON.stringify(posts)) {
-      setPosts((prevPosts) => [...prevPosts, ...data]);
-      setFilteredPosts((prevPosts) => [...prevPosts, ...data]);
+      setPosts([...posts, ...data].reverse());
+      setFilteredPosts([...posts, ...data].reverse());
       console.log("Call");
-      console.log(page);
     }
-  }, [page]);
-
-  const handlePageChange = (newPage) => {
-    setPage(newPage);
-  };
+  }, [data]);
 
   const handleSearchChange = (e) => {
     const text = e.target.value;
@@ -109,12 +116,25 @@ const Feed = () => {
         />
       </form>
       <TweetCardList
-        data={filteredPosts.length > 0 ? filteredPosts : posts}
+        data={filteredPosts.length > 0 ? filteredPosts : posts} // Pass reversedPosts here
         filter={filteredPosts}
         handleTagClick={handleTagClick}
       />
-      <div className="absolute bottom-0">{currentData ? "" : "loading..."}</div>
-      <div ref={lastElement} className="h-5" />
+      <div className="absolute bottom-0">
+        {isLoading ? (
+          <div
+            className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-secondary motion-reduce:animate-[spin_1.5s_linear_infinite]"
+            role="status"
+          >
+            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+              Loading...
+            </span>
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+      {/* <div ref={lastElement} className="h-5" /> */}
     </section>
   );
 };

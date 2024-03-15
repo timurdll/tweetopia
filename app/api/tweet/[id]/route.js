@@ -20,7 +20,7 @@ export const GET = async (request, { params }) => {
 // PATCH (update)
 
 export const PATCH = async (request, { params }) => {
-  const { tweet, tag, likes } = await request.json();
+  const { tweet, tag } = await request.json();
 
   try {
     await connectToDB();
@@ -29,7 +29,6 @@ export const PATCH = async (request, { params }) => {
 
     existingTweet.tweet = tweet;
     existingTweet.tag = tag;
-    existingTweet.likes = likes;
 
     await existingTweet.save();
 

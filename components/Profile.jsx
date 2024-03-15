@@ -6,7 +6,7 @@ const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
         <span className="blue_gradient break-words">{name} Profile</span>
       </h1>
       <p className="desc text-left">{desc}</p>
-      <div className="mt-16 prompt_layout">
+      <div className="mt-16 profile_tweet_layout ">
         {data.map((post) => (
           <TweetCard
             key={post._id}

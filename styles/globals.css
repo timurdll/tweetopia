@@ -51,11 +51,11 @@
       transparent 0%
     ),
     radial-gradient(at 97% 21%, hsla(125, 98%, 72%, 1) 0px, transparent 50%),
-    radial-gradient(at 52% 99%, hsla(354, 98%, 61%, 1) 0px, transparent 50%),
+    radial-gradient(at 52% 99%, rgb(58, 61, 253) 0px, transparent 50%),
     radial-gradient(at 10% 29%, hsla(256, 96%, 67%, 1) 0px, transparent 50%),
-    radial-gradient(at 97% 96%, rgb(149, 171, 228) 0px, transparent 50%),
+    radial-gradient(at 97% 96%, rgb(149, 198, 228) 0px, transparent 50%),
     radial-gradient(at 33% 50%, hsla(222, 67%, 73%, 1) 0px, transparent 50%),
-    radial-gradient(at 79% 53%, hsla(343, 68%, 79%, 1) 0px, transparent 50%);
+    radial-gradient(at 79% 53%, rgb(207, 165, 238) 0px, transparent 50%);
   position: absolute;
   content: "";
   width: 100%;
@@ -117,10 +117,13 @@
   @apply rounded-xl border border-gray-200 bg-white/20 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur p-5;
 }
 
-.prompt_layout {
-  @apply space-y-6 py-8 sm:columns-2 sm:gap-6 xl:columns-3;
+.tweet_layout {
+  @apply space-y-6 py-8 sm:gap-6;
 }
 
+.profile_tweet_layout {
+  @apply space-y-6 py-8 sm:columns-2 sm:gap-6 xl:columns-3;
+}
 /* Feed Component */
 .feed {
   @apply mt-16 mx-auto w-full max-w-xl flex justify-center items-center flex-col gap-2;
@@ -148,8 +151,8 @@
   @apply text-sm font-inter text-gray-700 hover:text-gray-500 font-medium;
 }
 
-/* PromptCard Component */
-.prompt_card {
+/* TweetCard Component */
+.tweet_card {
   @apply flex-1 break-inside-avoid rounded-lg border border-gray-300 bg-white/20 bg-clip-padding p-6 pb-4 backdrop-blur-lg backdrop-filter md:w-[360px] w-full h-fit;
 }
 
@@ -167,4 +170,10 @@
 
 .flex-between {
   @apply flex justify-between items-center;
+}
+
+/* Scroll */
+
+.scroll_up {
+  @apply fixed text-2xl text-white to-blue-700 rounded border-white w-16 h-16 bottom-20 right-20 z-20 flex items-center justify-center p-8 cursor-pointer;
 }

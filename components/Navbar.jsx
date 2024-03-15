@@ -28,9 +28,6 @@ const Navbar = () => {
             <Link href="/create-tweet" className="black_btn">
               Create tweet
             </Link>
-            {/* <Link href="/favorite" className="outline_btn">
-              Favorite
-            </Link> */}
             <button type="button" onClick={signOut} className="outline_btn">
               Sign Out
             </button>
@@ -79,13 +76,6 @@ const Navbar = () => {
                   onClick={() => setToggleDropdown(false)}
                 >
                   My Profile
-                </Link>
-                <Link
-                  href="/favorite"
-                  className="dropdown_link"
-                  onClick={() => setToggleDropdown(false)}
-                >
-                  Favorite
                 </Link>
                 <Link
                   href="/create-tweet"

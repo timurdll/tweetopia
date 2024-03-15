@@ -7,7 +7,7 @@ const tweetSchema = new Schema({
   },
   tweet: {
     type: String,
-    required: [true, "Prompt is required"],
+    required: [true, "Tweet is required"],
   },
   tag: {
     type: String,
@@ -18,6 +18,6 @@ const tweetSchema = new Schema({
   },
 });
 
-const Tweet = models.Prompt || model("Prompt", tweetSchema);
+const Tweet = models.Tweet || model("Tweet", tweetSchema);
 
 export default Tweet;

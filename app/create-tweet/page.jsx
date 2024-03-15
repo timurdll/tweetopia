@@ -3,27 +3,26 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useCreateTweetMutation } from "@redux/tweetopiaApi";
 import Form from "@components/Form";
+import { useCreateTweetMutation } from "@redux/tweetopiaApi";
 
 const CreateTweet = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const [submitting, setSubmitting] = useState(false);
+  const [createTweet, {}] = useCreateTweetMutation();
   const [post, setPost] = useState({
     tweet: "",
     tag: "",
-    likes: 0,
   });
-  const [addTweet, {}] = useCreateTweetMutation();
 
-  const createTweet = async (e) => {
+  const handleCreateTweet = async (e) => {
     e.preventDefault();
 
     setSubmitting(true);
 
     try {
-      await addTweet({
+      await createTweet({
         tweet: post.tweet,
         userId: session?.user.id,
         tag: post.tag,
@@ -44,7 +43,7 @@ const CreateTweet = () => {
         post={post}
         setPost={setPost}
         submitting={submitting}
-        handleSubmit={createTweet}
+        handleSubmit={handleCreateTweet}
       />
     </>
   );

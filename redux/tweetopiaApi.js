@@ -6,13 +6,13 @@ export const tweetopiaApi = createApi({
   reducerPath: "tweetopiaApi",
   tagTypes: ["Tweets"],
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://tweetopia-omega-rouge.vercel.app/api/",
+    baseUrl: "http://localhost:3000/api/",
   }),
   endpoints: (build) => ({
     // GET TWEETS
 
     getTweets: build.query({
-      query: ({ limit = 5, page = 1 }) => `tweet?limit=${limit}&page=${page}`,
+      query: () => `/tweet`,
       providesTags: (result) =>
         result
           ? [
@@ -22,17 +22,21 @@ export const tweetopiaApi = createApi({
           : [{ type: "Tweets", id: "LIST" }],
     }),
 
+    // getTweets: build.query({
+    //   query: ({ limit = 3, page = 1 }) => `tweet?limit=${limit}&page=${page}`,
+    //   providesTags: (result) =>
+    //     result
+    //       ? [
+    //           ...result.map(({ id }) => ({ type: "Tweets", id })),
+    //           { type: "Tweets", id: "LIST" },
+    //         ]
+    //       : [{ type: "Tweets", id: "LIST" }],
+    // }),
+
     // GET TWEET BY ID
 
     getTweet: build.query({
       query: (tweetId) => `tweet/${tweetId}`,
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.map(({ id }) => ({ type: "Tweets", id })),
-              { type: "Tweets", id: "LIST" },
-            ]
-          : [{ type: "Tweets", id: "LIST" }],
     }),
 
     // GET PROFILE
@@ -46,19 +50,6 @@ export const tweetopiaApi = createApi({
               { type: "Tweets", id: "LIST" },
             ]
           : [{ type: "Tweets", id: "LIST" }],
-    }),
-
-    // GET FAVORITE
-
-    getFavorite: build.query({
-      query: (userId) => `users/${userId}/favorite`,
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.map(({ id }) => ({ type: "Favorite", id })),
-              { type: "Favorite", id: "LIST" },
-            ]
-          : [{ type: "Favorite", id: "LIST" }],
     }),
 
     // CREATE NEW TWEET
@@ -92,28 +83,6 @@ export const tweetopiaApi = createApi({
       }),
       invalidatesTags: [{ type: "Tweets", id: "LIST" }],
     }),
-
-    // ADD FAVORITE
-
-    addFavorite: build.mutation({
-      query: ({ userId, body }) => ({
-        url: `users/${userId}`,
-        method: "PATCH",
-        body,
-      }),
-      invalidatesTags: [{ type: "Tweets", id: "LIST" }],
-    }),
-
-    // DELETE FAVORITE
-
-    deleteFavorite: build.mutation({
-      query: ({ userId, body }) => ({
-        url: `users/${userId}`,
-        method: "DELETE",
-        body,
-      }),
-      invalidatesTags: [{ type: "Tweets", id: "LIST" }],
-    }),
   }),
 });
 
@@ -124,7 +93,4 @@ export const {
   useCreateTweetMutation,
   useDeleteTweetMutation,
   useUpdateTweetMutation,
-  useAddFavoriteMutation,
-  useDeleteFavoriteMutation,
-  useGetFavoriteQuery,
 } = tweetopiaApi;

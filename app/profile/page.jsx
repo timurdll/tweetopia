@@ -11,10 +11,10 @@ import {
 const MyProfile = () => {
   const { data: session } = useSession();
   const [posts, setPosts] = useState([]);
-  const router = useRouter();
   const userId = session?.user?.id;
   const { data = [] } = useGetProfileQuery(userId);
   const [deleteTweet] = useDeleteTweetMutation();
+  const router = useRouter();
 
   useEffect(() => {
     if (JSON.stringify(data) !== JSON.stringify(posts)) {
@@ -37,7 +37,6 @@ const MyProfile = () => {
       }
     }
   };
-
   return (
     <Profile
       name="My"
