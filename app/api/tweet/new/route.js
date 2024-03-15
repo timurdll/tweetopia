@@ -1,13 +1,21 @@
-import Tweet from "@models/tweet";
 import { connectToDB } from "@utils/database";
+import Tweet from "@models/tweet";
 
-export const GET = async (request) => {
+export const POST = async (request) => {
+  const { userId, tweet, tag } = await request.json();
+
   try {
     await connectToDB();
+    const newTweet = new Tweet({
+      creator: userId,
+      tweet,
+      tag,
+    });
 
-    const tweets = await Tweet.find({}).populate("creator");
-    return new Response(JSON.stringify(tweets), { status: 200 });
+    await newTweet.save();
+
+    return new Response(JSON.stringify(newTweet), { status: 201 });
   } catch (error) {
-    return new Response("Failed to fetch all tweets", { status: 500 });
+    return new Response("Failed to create new tweet", { status: 500 });
   }
 };

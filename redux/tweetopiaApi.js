@@ -6,7 +6,7 @@ export const tweetopiaApi = createApi({
   reducerPath: "tweetopiaApi",
   tagTypes: ["Tweets"],
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://tweetopia-omega-rouge.vercel.app/api/",
+    baseUrl: "https://tweetopia-omega-rouge.vercel.app/api",
   }),
   endpoints: (build) => ({
     // GET TWEETS
