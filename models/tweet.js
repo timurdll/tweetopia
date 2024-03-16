@@ -13,9 +13,6 @@ const tweetSchema = new Schema({
     type: String,
     required: [true, "Tag is required"],
   },
-  likes: {
-    type: Number,
-  },
 });
 
 const Tweet = models.Tweet || model("Tweet", tweetSchema);
